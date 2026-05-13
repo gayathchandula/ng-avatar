@@ -1,0 +1,62 @@
+<div class="avatar-container" 
+     [style.width.px]="size" 
+     [style.height.px]="size"
+     [style.borderRadius]="currentConfig.shape === 'circle' ? '50%' : '8px'"
+     (mouseenter)="hovering = true"
+     (mouseleave)="hovering = false">
+  
+  <div class="avatar-content">
+    <img [src]="getAvatarUrl()" alt="Avatar" class="avatar-image">
+  </div>
+
+  <div class="edit-overlay" *ngIf="editable && hovering" (click)="toggleEditor()">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+    </svg>
+  </div>
+</div>
+
+<div class="editor-popover" *ngIf="editorOpen">
+  <div class="editor-header">
+    <h3>Customize Avatar</h3>
+    <button class="close-btn" (click)="toggleEditor()">&times;</button>
+  </div>
+  
+  <div class="editor-body">
+    <div class="section">
+      <label>Shape</label>
+      <div class="shape-options">
+        <button [class.active]="currentConfig.shape === 'circle'" (click)="updateConfig({shape: 'circle'})">Circle</button>
+        <button [class.active]="currentConfig.shape === 'square'" (click)="updateConfig({shape: 'square'})">Square</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label>Background Color</label>
+      <div class="color-grid">
+        <button *ngFor="let color of colors" 
+                class="color-swatch" 
+                [style.backgroundColor]="color"
+                [class.active]="currentConfig.bgColor === color"
+                (click)="updateConfig({bgColor: color})">
+        </button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title-row">
+        <label>Style Category</label>
+        <button class="randomize-btn" (click)="randomizeSeed()">🎲 Randomize</button>
+      </div>
+      <div class="style-grid">
+        <div *ngFor="let style of styles" 
+             class="style-card"
+             [class.active]="currentConfig.style === style.id"
+             (click)="updateConfig({style: style.id})">
+          <img [src]="getAvatarUrl({ style: style.id, seed: currentConfig.seed, bgColor: currentConfig.bgColor, shape: currentConfig.shape })" alt="{{style.name}}">
+          <span>{{ style.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

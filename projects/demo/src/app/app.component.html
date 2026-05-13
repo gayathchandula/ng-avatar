@@ -1,0 +1,37 @@
+<div class="demo-container">
+  <header>
+    <h1>Avatar Creator Demo</h1>
+    <p>A customizable, modern avatar component for Angular.</p>
+  </header>
+
+  <main>
+    <section class="demo-section">
+      <h2>Editable Avatar</h2>
+      <p>Hover over the avatar and click the edit icon to customize it.</p>
+
+      <div class="avatar-card">
+        <lib-ng-avatar-creator firstName="John" lastName="Doe" [size]="120" [editable]="true"
+          (avatarConfigChanged)="onAvatarConfigChanged($event)">
+        </lib-ng-avatar-creator>
+      </div>
+
+      <div class="code-preview" *ngIf="savedConfigStr">
+        <h3>Saved Configuration (Mock Backend)</h3>
+        <pre>{{ savedConfigStr }}</pre>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Read-only Avatars</h2>
+      <p>Different sizes and initial configurations.</p>
+
+      <div class="avatar-row">
+        <lib-ng-avatar-creator firstName="Alice" lastName="Smith" [size]="48">
+        </lib-ng-avatar-creator>
+
+        <lib-ng-avatar-creator firstName="Bob" lastName="Jones" [size]="64" [avatarConfig]="initialConfig">
+        </lib-ng-avatar-creator>
+      </div>
+    </section>
+  </main>
+</div>
